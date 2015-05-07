@@ -71,7 +71,10 @@ public class StateManager {
 	 *
 	 * @param state the specified state to update.
 	 */
-	public void loadState(int state) {
+	public void loadState(int state) 
+	{
+		
+		long start = System.nanoTime();
 		// Constants.
 		final int MENU_STATE = 0;
 		final int LEVEL_0 = 1;
@@ -108,6 +111,8 @@ public class StateManager {
 			this.states[state] = new LevelState(this, LEVEL_0 - 1);
 			this.isPlayingSurvival = true;
 		}
+		long delta = System.nanoTime() - start;
+		System.err.println("Load time (ms): "+(delta/1000000L));
 	}
 	
 	/**
