@@ -53,6 +53,7 @@ public class Level {
 	private int mapWidth; // The map array width.
 	private int mapHeight; // The map array height.
 	private int[][] map; // The map array. (height, width)
+	private int[][] mapcache; // The cache map array.(height,width)
 	private int tileSize; // The tileSize. Preferably 32.
 	private ArrayList<Rectangle2D.Double> barrierCollisionBoxes; // The
 																	// arraylist
@@ -208,11 +209,12 @@ public class Level {
 //			BufferedReader imageReader = new BufferedReader(new FileReader(fileInput));
 			InputStream fileInput = getClass().getResourceAsStream(fileName);
 			BufferedReader imageReader = new BufferedReader(new InputStreamReader(fileInput));
+			
 			this.mapWidth = Integer.parseInt(imageReader.readLine());
 			this.mapHeight = Integer.parseInt(imageReader.readLine());
 
 			this.map = new int[this.mapHeight][this.mapWidth];
-
+			this.mapcache = new int[this.mapHeight][this.mapWidth];
 			for (int r = 0; r < this.map.length; r++) {
 				// Get line of numbers and spaces.
 				currentLine = imageReader.readLine();
@@ -334,7 +336,10 @@ public class Level {
 		for (int r = 0; r < this.map.length; r++) {
 			for (int c = 0; c < this.map[r].length; c++) {
 				currentPosition = this.map[r][c];
-				drawTileImage(currentPosition, r, c, g);
+				if (mapcache[r][c] != this.map[r][c]) {
+										drawTileImage(currentPosition, r, c, g);
+										mapcache[r][c] = currentPosition;
+									}
 			}
 		}
 		g.dispose();
